@@ -3,12 +3,15 @@ package ua.edu.lntu.ipz_cw_1_2
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.benchmark.perfetto.ExperimentalPerfettoTraceProcessorApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -28,6 +31,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -77,7 +82,7 @@ fun Greeting(navController: NavHostController) {
                 })
         }
     ){
-        paddingValues ->
+            paddingValues ->
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -90,6 +95,7 @@ fun Greeting(navController: NavHostController) {
                 onValueChange = {text1 = it},
                 label = {Text("Введіть email")}
             )
+            Spacer(modifier = Modifier.height(12.dp))
             TextField(
                 value = text2,
                 onValueChange = {text2 = it},
@@ -110,6 +116,7 @@ fun Greeting(navController: NavHostController) {
                     Text("Sing In")
 
                 }
+                Spacer(modifier = Modifier.width(12.dp))
                 Button(onClick = {
                     navController.navigate("second_screen")
                 }) {
@@ -122,6 +129,7 @@ fun Greeting(navController: NavHostController) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Screen2(navController: NavHostController) {
     var text by remember { mutableStateOf("") }
@@ -131,14 +139,13 @@ fun Screen2(navController: NavHostController) {
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Text(text = "Sing Up", fontSize = 24.sp)
+                    Text(text = "Sing Up", fontSize = 36.sp)
                 },
-                actions = {
+                navigationIcon = {
                     IconButton(onClick = { navController.navigate("first_screen")},){
                         Icon(Icons.Filled.ArrowBack, contentDescription = "Action Icon")
                     }
                 })
-
         }
     ){
             paddingValues ->
@@ -147,19 +154,22 @@ fun Screen2(navController: NavHostController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .padding(paddingValues)
+                .fillMaxSize()
         ) {
             TextField(
                 value = email,
                 onValueChange = {email = it},
                 label = {Text("Введіть email")}
             )
+            Spacer(modifier = Modifier.height(12.dp))
             TextField(
                 value = password,
                 onValueChange = {password = it},
                 label = {Text("Введіть password")}
             )
             Text(text = text)
-            Button(onClick = {
+            Button(
+                onClick = {
                 if(email != "" && password != ""){
                     text = "Успішна реєстрація"
                     navController.navigate("first_screen")
@@ -167,7 +177,8 @@ fun Screen2(navController: NavHostController) {
                 else{
                     text = "Помилка реєстрації"
                 }
-            }) {
+            }
+                ) {
                 Text("Sing In",
                     modifier = Modifier)
 
